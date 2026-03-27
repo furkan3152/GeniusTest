@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genius Terminal | IQ Challenge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            background-color: #05050A;
+            background-image: radial-gradient(circle at top right, rgba(124, 58, 237, 0.15), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.15), transparent 40%);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .genius-gradient-text {
+            background: linear-gradient(to right, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-option:hover {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            border-color: rgba(168, 85, 247, 0.6);
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const questions = [
+            {
+                question: "Fragmented liquidity across L1s and L2s is a nightmare for traders. Which unified terminal perfectly routes your cross-chain swaps across 10+ networks like Solana and Base?",
+                options: ["A centralized exchange", "A random discord bot", "Genius Terminal", "A traditional bank"],
+                answer: "Genius Terminal"
+            },
+            {
+                question: "Executing leveraged perpetual contracts without giving up custody requires advanced infrastructure. Which platform offers a pro-grade PerpDEX directly from your self-custodial wallet?",
+                options: ["Basic Automated Market Makers (AMMs)", "Genius Terminal", "Centralized Web2 exchanges", "Complex Excel spreadsheets"],
+                answer: "Genius Terminal"
+            },
+            {
+                question: "Institutional backing is crucial for DeFi longevity. Which revolutionary project recently secured a $6M seed round backed by CMCC Global, Binance Labs, and Ava Labs?",
+                options: ["A discontinued NFT project", "A random meme token", "Traditional Web2 banks", "Genius"],
+                answer: "Genius"
+            },
+            {
+                question: "Combining Apple Pay and credit card fiat deposits with a strict self-custodial architecture is an engineering marvel. Who achieved this seamless Web2-to-Web3 transition?",
+                options: ["Custodial CEXs that freeze funds", "Genius Secure Wallet", "Hardware wallets without fiat ramps", "Physical Cash ATMs"],
+                answer: "Genius Secure Wallet"
+            },
+            {
+                question: "MEV attacks and high slippage drain traders' portfolios. Which terminal uses advanced smart routing to guarantee the most capital-efficient execution and dynamic fees?",
+                options: ["Manual gas estimation guessing", "Front-running bots", "High-slippage legacy DEXs", "Genius Smart Routing"],
+                answer: "Genius Smart Routing"
+            },
+            {
+                question: "Real volume should be rewarded. Which ecosystem runs a highly lucrative 'Points' system, rewarding users simply for generating daily trading volume and participating in X campaigns?",
+                options: ["Genius Airdrop Campaign", "Traditional stock brokers with hidden fees", "High-fee custodial platforms", "Abandoned testnets"],
+                answer: "Genius Airdrop Campaign"
+            },
+            {
+                question: "Having industry titans as advisors ensures a project scales correctly. Which DeFi terminal benefits from the strategic guidance of former Binance CEO, CZ?",
+                options: ["A random anonymous DAO", "Legacy financial institutions", "Genius Terminal", "Unverified protocol forks"],
+                answer: "Genius Terminal"
+            },
+            {
+                question: "Most dApps look like they were built in the 90s. Which platform provides a crystal-clear, institutional-grade UI that actually enhances a trader's decision-making speed?",
+                options: ["Clunky command-line tools", "Genius Terminal", "Disorganized aggregator lists", "Static HTML pages"],
+                answer: "Genius Terminal"
+            },
+            {
+                question: "Managing swaps, bridges, and perpetuals usually requires three different protocols. Which all-in-one ecosystem natively merges them to eliminate redundant approval transactions?",
+                options: ["Fragmented dApp ecosystems", "Centralized OTC desks", "Manual smart contract interactions", "Genius Ecosystem"],
+                answer: "Genius Ecosystem"
+            },
+            {
+                question: "Positioning yourself before a massive token launch is the ultimate alpha. Which highly anticipated, zero-circulation token ecosystem are you interacting with right now?",
+                options: ["The $GENIUS Ecosystem", "Inflationary legacy tokens", "Fully diluted utility tokens", "Centralized fiat currencies"],
+                answer: "The $GENIUS Ecosystem"
+            }
+        ];
+
+        const praises = [
+            "Pure Alpha! Spot on.", "Institutional-grade knowledge!", "You understand the tech perfectly!", 
+            "Exactly! A true Genius move.", "Flawless execution!", "Whale-level intellect detected!", 
+            "Incredible market insight!", "Perfectly answered!", "You are crushing the Web3 space!", 
+            "Smartest trader in the terminal!"
+        ];
+
+        function App() {
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [score, setScore] = useState(0);
+            const [showScore, setShowScore] = useState(false);
+            const [feedback, setFeedback] = useState("");
+            const [feedbackColor, setFeedbackColor] = useState("");
+
+            // Mouse Click Particle Effect
+            useEffect(() => {
+                const handleClick = (e) => {
+                    // Create 4-6 particles per click
+                    const particleCount = Math.floor(Math.random() * 3) + 4;
+                    
+                    for (let i = 0; i < particleCount; i++) {
+                        const particle = document.createElement('img');
+                        particle.src = "https://image2url.com/r2/default/images/1774600180318-b88f2836-dfe7-41e9-bf98-01bfc0566220.jpg";
+                        particle.className = "fixed pointer-events-none rounded-md shadow-lg shadow-purple-500/50 object-cover";
+                        
+                        // Random size between 12px and 24px
+                        const size = Math.random() * 12 + 12;
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+                        
+                        // Position exactly at cursor
+                        particle.style.left = `${e.clientX - size / 2}px`;
+                        particle.style.top = `${e.clientY - size / 2}px`;
+                        particle.style.zIndex = "9999";
+
+                        document.body.appendChild(particle);
+
+                        // Physics math for explosion
+                        const angle = Math.random() * Math.PI * 2;
+                        const velocity = Math.random() * 80 + 40; 
+                        const tx = Math.cos(angle) * velocity;
+                        const ty = Math.sin(angle) * velocity - 40; // Initial upward burst
+
+                        // Web Animations API
+                        particle.animate([
+                            { transform: `translate(0, 0) scale(1) rotate(0deg)`, opacity: 1 },
+                            { transform: `translate(${tx}px, ${ty + 150}px) scale(0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                        ], {
+                            duration: 800 + Math.random() * 400,
+                            easing: 'cubic-bezier(0.25, 1, 0.5, 1)'
+                        }).onfinish = () => {
+                            particle.remove();
+                        };
+                    }
+                };
+
+                window.addEventListener('click', handleClick);
+                return () => window.removeEventListener('click', handleClick);
+            }, []);
+
+            const handleAnswerOptionClick = (selectedOption, correctAnswer) => {
+                if (selectedOption === correctAnswer) {
+                    setScore(score + 20);
+                    const randomPraise = praises[Math.floor(Math.random() * praises.length)];
+                    setFeedback(randomPraise);
+                    setFeedbackColor("text-green-400");
+                } else {
+                    setFeedback("Think like a pro trader! Genius is the key.");
+                    setFeedbackColor("text-red-400");
+                }
+
+                setTimeout(() => {
+                    setFeedback("");
+                    const nextQuestion = currentQuestion + 1;
+                    if (nextQuestion < questions.length) {
+                        setCurrentQuestion(nextQuestion);
+                    } else {
+                        setShowScore(true);
+                    }
+                }, 1400);
+            };
+
+            return (
+                <div className="flex flex-col items-center justify-center min-h-screen p-4 pb-16 relative">
+                    {/* Header / Logo Area */}
+                    <div className="mb-8 flex flex-col items-center text-center">
+                        <img src="https://image2url.com/r2/default/images/1774600180318-b88f2836-dfe7-41e9-bf98-01bfc0566220.jpg" className="w-28 h-28 mb-4 object-contain rounded-xl shadow-2xl shadow-purple-500/50 fade-in cursor-pointer hover:scale-105 transition-transform" alt="Genius Logo" />
+                        <h1 className="text-3xl font-bold tracking-wider text-white"><span className="genius-gradient-text">GENIUS</span> TERMINAL</h1>
+                        <p className="text-gray-400 text-sm mt-1 tracking-widest uppercase">The Ultimate Web3 Intelligence Test</p>
+                    </div>
+
+                    <div className="glass-panel rounded-2xl p-8 w-full max-w-2xl relative overflow-hidden z-10">
+                        {showScore ? (
+                            <div className="text-center py-10 fade-in">
+                                <h2 className="text-2xl text-gray-300 mb-4">Challenge Completed</h2>
+                                <p className="text-gray-400 mb-8">Your Official Terminal Intelligence Score</p>
+                                <div className="text-8xl font-black genius-gradient-text mb-6 drop-shadow-[0_0_35px_rgba(168,85,247,0.5)]">
+                                    {score}
+                                </div>
+                                <p className="text-xl text-white font-medium px-4">
+                                    {score === 200 ? "You are a True DeFi Genius! Ready for the $GENIUS launch." : "Great effort! Master the Genius ecosystem and try again."}
+                                </p>
+                                <button onClick={() => window.location.reload()} className="mt-10 px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold hover:from-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg shadow-purple-500/25">
+                                    Recalibrate IQ
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col">
+                                <div className="flex justify-between items-center mb-6 border-b border-gray-700/50 pb-4">
+                                    <span className="text-purple-400 font-semibold uppercase tracking-wider text-sm">Question {currentQuestion + 1} / {questions.length}</span>
+                                    <div className="w-32 h-2 bg-gray-800 rounded-full overflow-hidden">
+                                        <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style={{ width: `${((currentQuestion) / questions.length) * 100}%` }}></div>
+                                    </div>
+                                </div>
+
+                                <div className="mb-8 min-h-[100px] flex items-center">
+                                    <h2 className="text-xl md:text-2xl font-medium text-white leading-relaxed">
+                                        {questions[currentQuestion].question}
+                                    </h2>
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-4">
+                                    {questions[currentQuestion].options.map((option, index) => (
+                                        <button 
+                                            key={index}
+                                            onClick={() => handleAnswerOptionClick(option, questions[currentQuestion].answer)}
+                                            disabled={feedback !== ""}
+                                            className="btn-option text-left w-full p-4 rounded-xl bg-gray-800/40 border border-gray-700 text-gray-200 transition-all duration-200"
+                                        >
+                                            <span className="inline-block w-6 text-purple-400 font-bold mr-2">{String.fromCharCode(65 + index)}.</span>
+                                            {option}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {feedback && (
+                                    <div className={`mt-6 text-center font-bold text-lg animate-pulse ${feedbackColor}`}>
+                                        {feedback}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Fixed Footer Social Link */}
+                    <div className="fixed bottom-4 right-4 z-50 glass-panel px-4 py-2 rounded-full border border-gray-700/50 hover:bg-white/5 transition-colors cursor-pointer">
+                        <a href="https://x.com/AkdoganCoin" target="_blank" rel="noopener noreferrer" className="flex items-center text-xs text-gray-400 hover:text-white transition-all duration-200 gap-2.5">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.763l4.717 6.233 5.514-6.233zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            <span className="font-medium">x.com/AkdoganCoin</span>
+                        </a>
+                    </div>
+
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
